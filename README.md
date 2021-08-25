@@ -58,4 +58,10 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [JsonWebToken](https://jwt.io/)
 - [Mysql](https://www.mysql.com/)
 
+### Links importantes
+
+- [Interface web do controlador](https://github.com/davi109/AccessPoint-ControllerWebInterface)
+- [Scripts para os pontos de acesso](https://github.com/davi109/AccessPoint-Scripts)
+
+
 

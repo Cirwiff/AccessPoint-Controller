@@ -1,4 +1,4 @@
-# AccesssPoint-Controller
+# AccessPoint-Controller
 Repositório contento todo conteúdo relacionado ao servidor controlador, o qual é responsável por gerenciar os pontos de acesso (roteadores wireless) com o firmware OpenWrt instalado
 
 <h2 align="center">Procedimentos para instalação</h2>

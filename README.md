@@ -53,7 +53,7 @@ $ npm start
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
-- [Express](https://expressjs.com/)
+- [Express.js](https://expressjs.com/)
 - [Node.js](https://nodejs.org/en/)
 - [JsonWebToken](https://jwt.io/)
 - [Mysql](https://www.mysql.com/)

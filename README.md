@@ -38,7 +38,7 @@ Configurado as váriaveis ambiente, execute os seguintes comandos abaixo para fi
 
 ```bash
 # Acesse a pasta do projeto no terminal/cmd
-$ cd AccesssPoint-Controller
+$ cd AccessPoint-Controller
 
 # Instale as dependências
 $ npm install

@@ -1,6 +1,14 @@
 # AccessPoint-Controller
 Repositório contento todo conteúdo relacionado ao servidor controlador, o qual é responsável por gerenciar os pontos de acesso (roteadores wireless) com o firmware OpenWrt instalado
 
+### O projeto
+
+Este projeto tem como objetivo possibilitar a implementação de uma rede wireless gerenciável de grande porte ou pequeno porte, que seja compátivel com diversos pontos de acesso e atenda aos seguintes requisítos:
+
+ - Flexibilidade
+ - Escalabilidade
+ - Baixo custo de implementação
+
 <h2 align="center">Procedimentos para instalação</h2>
 
 <h3 align="left">1 - Banco de dados</h3>

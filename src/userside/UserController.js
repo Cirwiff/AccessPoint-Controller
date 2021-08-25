@@ -28,7 +28,7 @@ module.exports = {
                 const token = jwt.sign({
                     user_id: res[0].id,
                     user_name: res[0].name,
-                    user_email: res[0].email,
+                    user_login: res[0].login,
                     user_permission: res[0].permission
                 },
                     process.env.JWT_KEY,
@@ -73,7 +73,7 @@ module.exports = {
         const dados = {
             name: body.name,
             password: hash,
-            email: body.email,
+            login: body.login,
             permission: body.permission
         }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27-Ago-2021 às 04:56
+-- Tempo de geração: 28-Ago-2021 às 22:52
 -- Versão do servidor: 10.4.19-MariaDB
 -- versão do PHP: 8.0.6
 
@@ -95,7 +95,7 @@ CREATE TABLE `sysadmins` (
 --
 
 INSERT INTO `sysadmins` (`id`, `name`, `password`, `login`, `permission`) VALUES
-(16, 'Administrator', '[object Promise]', 'admin', 0);
+(24, 'SysAdmin', '[object Promise]', 'admin', 0);
 
 --
 -- Índices para tabelas despejadas
@@ -128,7 +128,7 @@ ALTER TABLE `connectedclients`
 --
 ALTER TABLE `sysadmins`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`login`);
+  ADD UNIQUE KEY `login` (`login`);
 
 --
 -- AUTO_INCREMENT de tabelas despejadas
@@ -138,25 +138,25 @@ ALTER TABLE `sysadmins`
 -- AUTO_INCREMENT de tabela `accesspoint`
 --
 ALTER TABLE `accesspoint`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT de tabela `apgroups`
 --
 ALTER TABLE `apgroups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `connectedclients`
 --
 ALTER TABLE `connectedclients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de tabela `sysadmins`
 --
 ALTER TABLE `sysadmins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Restrições para despejos de tabelas

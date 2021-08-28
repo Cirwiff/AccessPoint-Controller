@@ -1,13 +1,13 @@
 const { connection } = require('../database/connection');
+const logger = require('../logger');
 
 module.exports = {
 
     //https://superuser.com/questions/1286244/openwrt-how-can-i-kick-a-wireless-client-from-command-line
 
-    async get(request, response) {
+    async index(request, response) {
 
         const consulta1 = "SELECT * FROM connectedclients"
-        const consulta2 = "SELECT count(*) FROM connectedclients"
 
         var conn;
 
@@ -16,9 +16,7 @@ module.exports = {
             conn = await connection.getConnection();
 
             const [resultado] = await conn.query(consulta1);
-            const [resultado2] = await conn.query(consulta2);
 
-            response.header('X-Total-Count', resultado2[0]['count(*)']);
             return response.json({ sucesso: true, resultado: resultado });
 
         } catch (error) {
@@ -36,10 +34,11 @@ module.exports = {
 
         const mac = request.query.mac;
         const status = request.query.status
-        const user_permission = request.user.user_permission;
+        const user_login = request.user.user_login
+        const user_id = request.user.user_id
 
         const consulta = "UPDATE connectedclients SET status=? WHERE mac = ?"
-        const consulta2 = "SELECT mac FROM connectedclients WHERE mac = ?"
+        const consulta2 = "SELECT id,mac FROM connectedclients WHERE mac = ?"
 
         var conn;
 
@@ -47,40 +46,50 @@ module.exports = {
 
             conn = await connection.getConnection();
 
+            const [resultado] = await conn.query(consulta2, mac)
 
-            if (user_permission == 0) { //Verifica se o usuario tem permissao para atualizar AP
+            if (resultado.length < 1) {
+                return response.status(401).json({ sucesso: false, mensagem: "Cliente não cadastrado" });
+            }
 
-                const [resultado] = await conn.query(consulta2, mac)
+            if(status == 'unblock' || status == 'block'){
 
-                if (resultado.length < 1) {
-                    return response.status(401).json({ sucesso: false, mensagem: "Cliente não cadastrado" });
-                }
+                await conn.query(consulta, [status, mac])// executa o comando no banco de dados
 
-                if(status == 'unblock' || status == 'block'){
+                var m = status == 'block'? "foi bloqueado":"foi desbloqueado"
 
-                    await conn.query(consulta, [status, mac])// executa o comando no banco de dados
+                logger.info({
+                    type: "Clientes conectados",
+                    action: "update",
+                    user: user_login + "(" + user_id + ")" ,
+                    message:"Cliente "+resultado[0].mac + "(" + resultado[0].id + ") "+m, 
+                    date: new Date()
+                })
 
-                    return response.json({
-                        sucesso: true,
-                        mensagem: 'Access point atualizado com sucesso'
-                    });
+                return response.json({
+                    sucesso: true,
+                    mensagem: 'Access point atualizado com sucesso'
+                });
 
-                }else{
+            }else{
 
-                    return response.json({
-                        sucesso: true,
-                        mensagem: 'Parametro invaliddo, status deve ser "block" ou "unblock"'
-                    });
+                return response.json({
+                    sucesso: true,
+                    mensagem: 'Parametro invaliddo, status deve ser "block" ou "unblock"'
+                });
 
-                }
-                
-            } else {
-                return response.status(401).json({ sucesso: false, mensagem: "Usuário não autorizado" });
             }
 
         } catch (error) {
 
-            console.log(error)
+            logger.error({
+                type: "Clientes conectados",
+                action: "update",
+                user: user_login + "(" + user_id + ")" ,
+                message:error, 
+                date: new Date()
+            })
+
             if (error.code == "ER_DUP_ENTRY") {
                 return response.status(406).json({ sucesso: false, mensagem: "MAC já cadastrado" });
             } else {
@@ -96,40 +105,50 @@ module.exports = {
     async delete(request, response) {
 
         const { id } = request.params;
-        const user_permission = request.user.user_permission;
+        const user_login = request.user.user_login
+        const user_id = request.user.user_id
 
         const consulta = "DELETE FROM connectedclients WHERE id= ?";
-        const consulta2 = "SELECT id FROM connectedclients WHERE id = ?"
+        const consulta2 = "SELECT id,mac FROM connectedclients WHERE id = ?"
 
         var conn;
 
         try {
 
-            if (user_permission == 0) {
+            conn = await connection.getConnection();
 
-                conn = await connection.getConnection();
+            const [resultado] = await conn.query(consulta2, [id])
 
-                const [resultado] = await conn.query(consulta2, [id])
-
-                if(resultado.length < 1){
-                    return response.status(401).json({ sucesso: false, mensagem: "Cliente não cadastrado" });
-                }
-
-                await conn.query(consulta, [id]);
-
-                return response.json({
-                    sucesso: true,
-                    mensagem: "Cliente deletado com sucesso"
-                });
-
-            } else {
-                return response.status(401).json({ sucesso: false, mensagem: "Usuário não autorizado" });
+            if(resultado.length < 1){
+                return response.status(401).json({ sucesso: false, mensagem: "Cliente não cadastrado" });
             }
+
+            await conn.query(consulta, [id]);
+
+            logger.info({
+                type: "Clientes conectados",
+                action: "delete",
+                user: user_login + "(" + user_id + ")" ,
+                message:"Cliente "+resultado[0].mac + "(" + resultado[0].id + ") foi deletado", 
+                date: new Date()
+            })
+
+            return response.json({
+                sucesso: true,
+                mensagem: "Cliente deletado com sucesso"
+            });
 
 
         } catch (error) {
 
-            console.log(error)
+            logger.error({
+                type: "Clientes conectados",
+                action: "delete",
+                user: user_login + "(" + user_id + ")" ,
+                message:error, 
+                date: new Date()
+            })
+
             return response.status(500).json({ sucesso: false, mensagem: error });
 
         } finally {

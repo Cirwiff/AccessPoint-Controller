@@ -15,6 +15,6 @@ app.use(express.urlencoded({ limit: "50mb", extended: true, parameterLimit:50000
 app.use(express.json({limit: "50mb"}));
 app.use(routes); // Servidor usando as APIs listados no arquivo routes
 
-app.listen(3000);  //Servidor sysadmins escutando na porta 3333
+app.listen(3333);  //Servidor sysadmins escutando na porta 3333
 
 cron.schedule('* * * * *', check.index); //agendar tarefa de verificar aps a cada minuto

@@ -8,6 +8,7 @@ const ApController = require('./userside/ApController')
 const GroupController = require('./userside/GroupsController')
 const CaControllerAP = require('./apside/caController')
 const CaController = require('./userside/caController')
+const LogController = require('./userside/loggerController')
 
 routes.post('/api/v1/user', jwt.login, UserController.create)
 routes.get('/api/v1/user', jwt.login, UserController.index)
@@ -31,5 +32,7 @@ routes.put('/api/v1/ca', jwt.login, CaController.update)
 routes.delete('/api/v1/ca/:id', jwt.login, CaController.delete)
 
 routes.put('/api/v2/ap', basic_auth.login, CaControllerAP.put)
+routes.get('/api/v1/log', jwt.login, LogController.index)
+
 
 module.exports = routes;

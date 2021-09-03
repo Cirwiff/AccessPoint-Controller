@@ -15,7 +15,7 @@ module.exports = {
                 
                 array.forEach(item => {
                     try{
-                        log.push(JSON.parse(item))
+                        log.push(item)
                     }catch(error){}
                 })
             

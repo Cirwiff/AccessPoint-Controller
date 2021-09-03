@@ -10,12 +10,12 @@ module.exports = {
 
             if (user_permission == 0) {
 
-                var array = fs.readFileSync('info.log').toString().split('\r\n')
+                var array = fs.readFileSync('info.log').toString().split('\n')
                 var log = []
                 
                 array.forEach(item => {
                     try{
-                        log.push(item)
+                        log.push(JSON.parse(item))
                     }catch(error){}
                 })
             

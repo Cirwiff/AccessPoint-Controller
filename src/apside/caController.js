@@ -33,14 +33,18 @@ module.exports = {
             if (e.length > 0) {
 
                 const [r] = await conn.query(consulta5)
-                r.forEach(item => filter.push(item.mac))
-
-                body.blacklist.forEach(item => {
-                    if (!filter.includes(item)) {
-                        exclude_black.push(item)
-                    }
-                })
-
+                if(r.length > 0){
+                    r.forEach(item => filter.push(item.mac))
+                }
+                
+                if(body.blacklist !== undefined){
+                    body.blacklist.forEach(item => {
+                        if (!filter.includes(item)) {
+                            exclude_black.push(item)
+                        }
+                    })
+                }
+               
                 filter.forEach(item => {
                     if (!body.blacklist.includes(item)) {
                         include_black.push(item)
@@ -94,11 +98,14 @@ module.exports = {
 
                 const [res] = await conn.query(consulta8, [body.mac])
 
-                res.forEach(item => {
-                    if(!setCa.includes(item.mac) && item.status !== 'block'){
-                        setOffline.push(item)
-                    }
-                })
+                if(res.length > 0){
+
+                    res.forEach(item => {
+                        if(!setCa.includes(item.mac) && item.status !== 'block'){
+                            setOffline.push(item)
+                        }
+                    })
+                }
 
                 for(var k=0; k<setOffline.length; k++){
 

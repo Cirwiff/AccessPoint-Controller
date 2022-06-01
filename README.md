@@ -38,6 +38,9 @@ DB_DATABASE=controller
 # JWT
 JWT_KEY=U6SD7ctbsw3gZK96A1UkUYi4GspAftSR
 
+# Server port
+PORT=8080
+
 # API-BasicAuth-AP
 AUTH_USER=teste
 AUTH_KEY=12345678
